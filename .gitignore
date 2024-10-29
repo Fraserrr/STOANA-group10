@@ -1,0 +1,7 @@
+.idea/
+
+.vscode/
+
+data/rawdata.csv
+
+src/k_mean_example.py
