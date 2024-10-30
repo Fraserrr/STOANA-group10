@@ -87,6 +87,8 @@ pip install -r requirements.txt
 
 #### 3.2.3 K-means 聚类
 
+- 非调库聚类函数 `k_means_sample_show(X, k_value)`
+  - 调用助教所给 `kMeans(dataSet, k)` 函数完成聚类并绘图
 - 二维聚类函数 `k_means_2d_show(X, k_value)`
   - 完成聚类并绘制出可视化气泡图
 - 三维聚类函数 `k_means_3d_show(X, k_value)`
@@ -100,10 +102,7 @@ pip install -r requirements.txt
 
 ### Contributor
 
-Wang Yujie
-
-xxx
-
-xxx
-
-xxx
+Wang Yujie,
+Wang Linzi,
+Shao Yunyi,
+Fan Jiahui
