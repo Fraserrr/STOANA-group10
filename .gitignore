@@ -2,6 +2,8 @@
 
 .vscode/
 
+/K-Means/
+
 data/rawdata.csv
 
 src/k_mean_example.py
