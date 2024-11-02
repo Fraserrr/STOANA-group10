@@ -9,6 +9,8 @@ df = pd.read_csv('../data/rawdata.csv', encoding='utf-8')
 selected_columns = [
     '股票号', '年份',
     '【每股收益      (元)】',
+    '【净资产收益率  (％)】',
+    '【净利润      (万元)】',
     '【资产负债比    (％)】',  # 离散度高
     '【总资产      (万元)】',
     '【流动资产    (万元)】',
@@ -26,7 +28,7 @@ selected_columns = [
 # 提取并清理数据
 data = df[selected_columns].copy()
 data.columns = ['股票号', '年份',
-                '每股收益',
+                '每股收益', '净资产收益率', '净利润',
                 '资产负债比',
                 '总资产', '流动资产', '长期投资', '固定资产', '无形其他资产',
                 '股东权益比率', '股东权益增长率', '股东权益',
@@ -38,23 +40,36 @@ year_data = data[data['年份'] == year]
 
 # 需要计算相关性的字段
 label_columns = [
-    '每股收益',
-    '资产负债比',
-    '总资产', '流动资产', '长期投资', '固定资产', '无形其他资产',
-    '股东权益比率', '股东权益增长率', '股东权益',
-    '主营收入增长率', '主营业务利润率', '总资产增长率'
+     '每股收益', '净资产收益率', '净利润',
+     '资产负债比',
+     '总资产', '流动资产', '长期投资', '固定资产', '无形其他资产',
+     '股东权益比率', '股东权益增长率', '股东权益',
+     '主营收入增长率', '主营业务利润率', '总资产增长率'
 ]
 
-# 选取相关性矩阵输入数据
 correlation_selected_data = year_data[label_columns].copy()
 
+# 数据清洗
+for column in correlation_selected_data.columns:
+    q1 = correlation_selected_data[column].quantile(0.20)
+    q3 = correlation_selected_data[column].quantile(0.80)
+    mask = (correlation_selected_data[column] - q1 > 0.38) | (q3 - correlation_selected_data[column] > 0.38)
+
+    if mask.any():
+        mean_val = correlation_selected_data[~mask][column].mean()
+        correlation_selected_data.loc[mask, column] = mean_val
+
+
+# 设置字体
+plt.rcParams['font.sans-serif'] = ['Microsoft YaHei']
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
 def plot_correlation_heatmap(data):
     # 计算相关性矩阵
     corr_matrix = data.corr()
 
     # 设置图形大小
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(12, 9))
 
     # 绘制热力图
     sns.heatmap(
