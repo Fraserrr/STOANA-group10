@@ -36,7 +36,7 @@ data.columns = ['股票号', '年份',
                 '资产负债比',
                 '总资产', '流动资产', '长期投资', '固定资产', '无形其他资产',
                 '股东权益比率', '股东权益增长率', '股东权益',
-                '主营收入增长率', '主营业务利润率', '总资产增长率','净资产收益率'
+                '主营收入增长率', '主营业务利润率', '总资产增长率', '净资产收益率'
                 ]
 
 # 需要做时间序列分析的字段
@@ -56,7 +56,11 @@ def plot_time_series_selected(column_name):
     # 遍历所有的股票号
     for stock_id in unique_stock_ids:
         stock_data = data[data['股票号'] == stock_id]  # 获取对应股票的数据
-        plt.plot(stock_data['年份'], stock_data[column_name], label=f'股票号 {stock_id}')
+        delta = stock_data[stock_data['年份'] == 2003][column_name].item() - stock_data[stock_data['年份'] == 2000][
+            column_name].item()
+        print(delta)
+        if (delta > 0.08):
+            plt.plot(stock_data['年份'], stock_data[column_name], label=f'股票号 {stock_id}')
 
     # 设置图的标题和坐标轴标签
     plt.title(f'所有股票的 {column_name} 时间序列分析')
@@ -64,7 +68,7 @@ def plot_time_series_selected(column_name):
     plt.ylabel(column_name)
     plt.xticks(selected_years)  # 设置横轴为选中的 4 个离散点
 
-    # plt.legend()  # 显示图例（图例过大可能影响视觉）
+    plt.legend(loc='upper right')  # 显示图例（图例过大可能影响视觉）
     plt.show()  # 显示图形
 
 

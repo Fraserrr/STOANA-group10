@@ -41,6 +41,7 @@ pip install -r requirements.txt
   - 对 132 支股票的连续 4 年数据，选取某一列绘制折线图
   - 折线较多可能出现折叠，主要观察数据整体趋势
   - 观察发现数据源中 2002 与 2003 两年数据有较大重叠
+    - `selected_timeseries.py` 对非重叠数据进行了筛选
 - 结合截面与时间序列分析：`selected_hist.py`
   - 频数分布直方图
   - 基础直方图函数 `plot_hist()` 

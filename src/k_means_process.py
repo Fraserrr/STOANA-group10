@@ -21,8 +21,8 @@ selected_columns = [
     '【股东权益增长率(％)】',
     '【股东权益    (万元)】',
     '【主营收入增长率(％)】',  # 以下为离散度较大的数据
-    '【主营业务利润率(％)】',
-    '【总资产增长率  (％)】'
+    '【每股收益      (元)】',
+    '【净资产收益率  (％)】'
 ]
 # 提取并清理数据
 data = df[selected_columns].copy()
@@ -30,12 +30,12 @@ data.columns = ['股票号', '年份',
                 '资产负债比',
                 '总资产', '流动资产', '长期投资', '固定资产', '无形其他资产',
                 '股东权益比率', '股东权益增长率', '股东权益',
-                '主营收入增长率', '主营业务利润率', '总资产增长率']
+                '主营收入增长率', '每股收益', '净资产收益率']
 # 选择某一年度
 year_data = data[data['年份'] == 2003]
 
 # 选出需要用于聚类的数据维度
-X_prepared = year_data[['资产负债比', '总资产增长率']]
+X_prepared = year_data[['每股收益', '主营收入增长率']]
 
 
 # 计算欧氏距离
@@ -179,7 +179,7 @@ def k_means_2d_show(X, k_value):
                 cmap='viridis',
                 alpha=0.8
                 )
-    plt.scatter(centroids[:, 0], centroids[:, 1], c='red', s=300, alpha=0.5)
+    plt.scatter(centroids[:, 0], centroids[:, 1], c='red', s=300, alpha=0.6)
     plt.title('K-means Clustering')
     plt.xlabel(x_label)
     plt.ylabel(y_label)
